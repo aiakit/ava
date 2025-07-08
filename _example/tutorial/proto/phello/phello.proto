@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package phello;
+// this proto file is for api.hello/srv.hello
+
+// request params.
+message SayReq {
+  string ping = 1;
+}
+
+// response content.
+message SayRsp {
+  string pong = 1;
+}
+
+// Say is service api for client and server.
+service Say {
+
+  // requestResponse or fireAndForget.
+  rpc Hi(SayReq) returns (SayRsp) {}
+
+}
+
+// SaySrv is service server for client and server.
+service SaySrv {
+
+  // requestResponse or fireAndForget.
+  rpc Say(SayReq) returns (SayRsp) {}
+
+  // requestStream.
+  // SayReq is channel params.
+  rpc Stream(SayReq) returns (stream SayRsp) {}
+
+  // requestChannel.
+  // SayReq and SayRsp is channel.
+  rpc Channel(stream SayReq) returns (stream SayRsp) {}
+}
+
+message HttpApiReq{
+  //params is URL query url.Values
+  map<string, string> params = 1;
+}
+
+message HttpApiRsp{
+  int32 code = 1;
+  string msg = 2;
+  string data = 3;
+}
+
+//file service
+service Http{
+  // get http request api
+  rpc Hi(HttpApiReq)returns(HttpApiRsp){}
+  // http upload file
+  rpc Upload(HttpFileReq)returns(HttpFileRsp){}
+}
+
+//FileReq must equals to github.com/aiakit/ava/parcel/packet/parcel.proto FileReq
+message HttpFileReq{
+  string file_name = 1;
+  int64 file_size = 2;
+  bytes  body = 3;
+}
+
+message HttpFileRsp{
+  uint32 code = 1;
+  string msg = 2;
+}

@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package pim;
+// this proto file is for  im demo
+
+message SayReq {
+  string Message = 1;
+  string name = 2;
+}
+
+message SayRsp {
+  string Message = 1;
+}
+
+// HandshakeReq to establish a connection
+message HandshakeReq {
+  string name = 1;
+}
+
+// response content.
+// BroadcastMessage usually use for broadcast
+message BroadcastMessage {
+  //you can add a business serial number for client
+  string message = 2;
+}
+
+// Im is service API for client and server.
+service Im {
+
+  rpc Send(SayReq) returns (SayRsp) {}
+
+  rpc Handshake(HandshakeReq) returns (stream BroadcastMessage) {}
+
+  rpc Broadcast(BroadcastMessage)returns(BroadcastMessage){}
+}
+

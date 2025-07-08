@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package ava;
+
+//ava internal packet object
+message HttpPacket {
+  int32 code = 1;
+  string msg = 2;
+}
+
+//ava file upload request
+//you must defined a struct as FileReq
+message HttpFileReq{
+  string file_name = 1;
+  int64 file_size = 2;
+  bytes  body = 3;
+  string extra = 4;
+}
+
+//ava http GET request
+//you must defined a struct as ApiReq
+message HttpApiReq{
+  map<string, string> params = 1;
+}
+
